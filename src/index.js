@@ -9,7 +9,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors()); // Enable CORS for all routes
+// CORS with origins for local + Netlify
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://agent-691371435906e62e9248ace9--olpf.netlify.app'],
+  credentials: true
+}));
+
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
@@ -32,10 +37,7 @@ app.use((err, req, res, next) => {
 // MongoDB Connection 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGO_URI);  // Removed deprecated options
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
@@ -43,7 +45,7 @@ const connectDB = async () => {
   }
 };
 
-// start the server
+// Start the server
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
