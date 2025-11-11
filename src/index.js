@@ -11,7 +11,10 @@ const app = express();
 
 // CORS with origins for local + Netlify
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://agent-691371435906e62e9248ace9--olpf.netlify.app'],
+  origin: [
+    'http://localhost:3000', 
+    'https://olp-frontend-oyx8.onrender.com'  // <- Add this
+  ],
   credentials: true
 }));
 
